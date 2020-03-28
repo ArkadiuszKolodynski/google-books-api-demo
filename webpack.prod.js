@@ -3,7 +3,6 @@ const glob = require("glob");
 const merge = require("webpack-merge");
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OpenBrowserPlugin = require("open-browser-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
@@ -27,14 +26,10 @@ module.exports = merge(common, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "css/styles.css"
+      filename: "styles/styles.css"
     }),
-    new OpenBrowserPlugin(
-      `http://localhost:${process.env.npm_package_config_port}`
-    ),
     new PurgecssPlugin({
-      paths: () =>
-        glob.sync(path.resolve(__dirname, "src") + "/**/*", { nodir: true })
+      paths: () => glob.sync(path.resolve(__dirname, "src") + "/**/*", { nodir: true })
     })
   ]
 });

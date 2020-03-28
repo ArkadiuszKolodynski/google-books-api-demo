@@ -1,5 +1,4 @@
-import "../css/styles.scss";
-import "url-polyfill";
+import "../styles/styles.scss";
 import Book from "./book";
 import Spinner from "./spinner";
 
@@ -15,76 +14,6 @@ class App {
     this.startIndex = 0;
   }
 
-  onScrollHandler = _event => {
-    const content = this.elements["content"];
-    if (content.offsetHeight + content.scrollTop + 1 >= content.scrollHeight) {
-      content.onscroll = undefined;
-      this.toogleSpinner();
-      this.startIndex += this.maxResults;
-      this.getData();
-    }
-  };
-
-  onSubmitHandler = event => {
-    event.preventDefault();
-    const content = this.elements["content"];
-    this.value = event.target[0].value;
-    if (this.value !== "") {
-      content.innerHTML = "";
-      content.onscroll = undefined;
-      this.toogleSpinner();
-      this.startIndex = 0;
-      this.getData();
-    }
-  };
-
-  getData() {
-    const content = this.elements["content"];
-    const url = this.baseUrl;
-    url.search = new URLSearchParams(this.getParams());
-    fetch(url.href)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
-      .then(json => {
-        this.toogleSpinner();
-        if (json.totalItems > 0) {
-          if (json.totalItems - this.startIndex >= 10) {
-            content.onscroll = this.onScrollHandler;
-          }
-          if (json.items) {
-            for (const item of json.items) {
-              content.insertAdjacentHTML(
-                "beforeend",
-                new Book(
-                  item.volumeInfo.title,
-                  item.volumeInfo.imageLinks
-                    ? item.volumeInfo.imageLinks.thumbnail
-                    : null,
-                  item.volumeInfo.description
-                ).render()
-              );
-            }
-          }
-        } else {
-          content.insertAdjacentText("beforeend", "No items found!");
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.toogleSpinner();
-        this.content.insertAdjacentHTML(
-          "beforeend",
-          "<span>There was an error: " +
-            err.message +
-            "</span><br><span>Please reload the page</span>"
-        );
-      });
-  }
-
   getElements() {
     return {
       searchForm: document.getElementById("searchForm"),
@@ -93,30 +22,100 @@ class App {
     };
   }
 
-  getParams() {
-    return {
+  main() {
+    this.elements.searchInput.focus();
+    this.elements.searchForm.onsubmit = this.onSubmitHandler;
+    this.elements.content.onscroll = this.onScrollHandler;
+  }
+
+  onSubmitHandler = async event => {
+    event.preventDefault();
+    const content = this.elements.content;
+    this.value = event.target[0].value;
+    if (this.value !== "") {
+      content.innerHTML = "";
+      content.onscroll = undefined;
+      this.toogleSpinner();
+      this.startIndex = 0;
+      await this.getData();
+    }
+  };
+
+  onScrollHandler = async _event => {
+    const content = this.elements.content;
+    if (content.offsetHeight + content.scrollTop + 1 >= content.scrollHeight) {
+      content.onscroll = undefined;
+      this.toogleSpinner();
+      this.startIndex += this.maxResults;
+      await this.getData();
+    }
+  };
+
+  async getData() {
+    try {
+      this.baseUrl.search = this.getSearchParams();
+      const response = await fetch(this.baseUrl);
+      if (response.ok) {
+        const payload = await response.json();
+        this.toogleSpinner();
+        if (payload.totalItems > 0) {
+          this.insertBooks(payload);
+        } else {
+          content.insertAdjacentText("beforeend", "No items found!");
+        }
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (err) {
+      this.handleFetchingBooksError(err);
+    }
+  }
+
+  insertBooks(payload) {
+    if (payload.totalItems - this.startIndex >= 10) {
+      this.elements.content.onscroll = this.onScrollHandler;
+    }
+    if (payload.items) {
+      for (const item of payload.items) {
+        this.elements.content.insertAdjacentElement(
+          "beforeend",
+          new Book(
+            item.volumeInfo.title,
+            item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : null,
+            item.volumeInfo.description
+          )
+        );
+      }
+    }
+  }
+
+  handleFetchingBooksError(error) {
+    console.log(error);
+    this.toogleSpinner();
+    this.elements.content.insertAdjacentHTML(
+      "beforeend",
+      `<span>There was an error: ${error.message}</span>
+      <br>
+      <span>Please reload the page</span>`
+    );
+  }
+
+  getSearchParams() {
+    return new URLSearchParams({
       q: `intitle:${this.value}`,
       startIndex: this.startIndex,
       maxResults: this.maxResults,
       projection: "lite"
-    };
+    });
   }
 
   toogleSpinner() {
-    const content = this.elements["content"];
-    const spinner = this.spinner;
-    if (content.contains(spinner)) {
-      content.removeChild(spinner);
+    const content = this.elements.content;
+    if (content.contains(this.spinner)) {
+      content.removeChild(this.spinner);
     } else {
-      content.insertAdjacentElement("beforeend", spinner);
+      content.insertAdjacentElement("beforeend", this.spinner);
     }
-  }
-
-  main() {
-    this.elements["searchInput"].focus();
-
-    this.elements["searchForm"].onsubmit = this.onSubmitHandler;
-    this.elements["content"].onscroll = this.onScrollHandler;
   }
 }
 

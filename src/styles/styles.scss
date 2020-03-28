@@ -1,0 +1,12 @@
+.container {
+  overflow: hidden;
+}
+
+.content {
+  max-height: calc(100vh - 10rem);
+  overflow-y: auto;
+}
+
+@import '~bootswatch/dist/darkly/variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~bootswatch/dist/darkly/bootswatch';

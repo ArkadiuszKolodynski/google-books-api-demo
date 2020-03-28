@@ -1,0 +1,9 @@
+{
+  "printWidth": 100,
+  "overrides": [
+    {
+      "files": "*.scss",
+      "options": { "singleQuote": true }
+    }
+  ]
+}

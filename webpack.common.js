@@ -1,9 +1,14 @@
 const path = require("path");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: ["@babel/polyfill", "whatwg-fetch", "./src/index.js"],
+  entry: [
+    "@babel/polyfill",
+    "url-polyfill",
+    "whatwg-fetch",
+    path.resolve(__dirname, "src", "index.js")
+  ],
   module: {
     rules: [
       {
@@ -23,14 +28,14 @@ module.exports = {
     ]
   },
   output: {
-    filename: "js/bundle.js",
+    filename: "js/[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist")
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "Google Books API Demo",
-      template: "./src/templates/index.html"
+      template: path.resolve(__dirname, "src", "templates", "index.ejs")
     })
   ]
 };
