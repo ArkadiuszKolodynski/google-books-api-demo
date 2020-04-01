@@ -2,7 +2,7 @@
   "name": "google-books-api-demo",
   "version": "1.0.0",
   "description": "Google Books API Demo",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
     "audit": "source-map-explorer ./dist/js/bundle.js",
     "build": "webpack -p --config webpack.prod.js",

@@ -7,7 +7,7 @@ module.exports = {
     "@babel/polyfill",
     "url-polyfill",
     "whatwg-fetch",
-    path.resolve(__dirname, "src", "index.js")
+    path.resolve(__dirname, "src", "main.js")
   ],
   module: {
     rules: [
