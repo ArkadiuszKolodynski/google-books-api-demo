@@ -2,14 +2,16 @@ import * as img from "../images/no-cover.jpg";
 
 class Book {
   /**
+   *
    * @param  {string} title
    * @param  {string} src
    * @param  {string} desc
    * @param  {number} descMaxLength
+   * @returns {HTMLElement}
    */
   constructor(title, src, desc, descMaxLength) {
     this.title = title || "No title";
-    this.src = src || img;
+    this.src = this.replaceHttpWithHttps(src) || img;
     this.desc = desc || "This book has no description yet";
     this.descMaxLength = descMaxLength || 15;
 
@@ -23,7 +25,21 @@ class Book {
     </div>
     `).firstElementChild;
   }
+
   /**
+   *
+   * @param {string} src
+   * @returns {string}
+   */
+  replaceHttpWithHttps(src) {
+    if (src && !src.startsWith("https")) {
+      src = "https" + src.substr(4);
+    }
+    return src;
+  }
+
+  /**
+   *
    * @param  {string} description
    */
   shortenDesc(description) {

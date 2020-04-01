@@ -1,4 +1,8 @@
 class Spinner {
+  /**
+   *
+   * @returns {HTMLElement}
+   */
   constructor() {
     return document.createRange().createContextualFragment(
       ` <div id="spinner" class="my-3 text-center">
