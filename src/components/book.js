@@ -17,12 +17,12 @@ class Book {
 
     return document.createRange().createContextualFragment(
       `<div class="card mb-4 mx-auto">
-      <img class="mx-auto w-50" src="${this.src}" alt="${this.title}">
-      <div class="card-body">
-        <h4 class="card-title">${this.title}</h4>
-        <p class="card-text text-muted">${this.shortenDesc(this.desc)}</p>
-      </div>
-    </div>`
+         <img class="mx-auto w-50" src="${this.src}" alt="${this.title}">
+         <div class="card-body">
+          <h4 class="card-title">${this.title}</h4>
+          <p class="card-text text-muted">${this.shortenDesc(this.desc)}</p>
+         </div>
+       </div>`
     ).firstChild;
   }
 
