@@ -138,6 +138,7 @@ class App {
     if (content.contains(this.spinner)) {
       content.removeChild(this.spinner);
     } else {
+      console.log(this.spinner);
       content.insertAdjacentElement("beforeend", this.spinner);
     }
   }
