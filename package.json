@@ -4,13 +4,9 @@
   "description": "Google Books API Demo",
   "main": "src/main.js",
   "scripts": {
-    "audit": "source-map-explorer ./dist/js/bundle.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "webpack serve --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "config": {
-    "port": "8080"
   },
   "repository": {
     "type": "git",
@@ -24,7 +20,7 @@
   "homepage": "https://github.com/ArkadiuszKolodynski/google-books-api-demo#readme",
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
