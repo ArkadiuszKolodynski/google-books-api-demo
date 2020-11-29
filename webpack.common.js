@@ -14,7 +14,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        loader: "babel-loader",
       },
       {
         test: /\.(png|jpe?g|gif)$/,
@@ -31,6 +31,7 @@ module.exports = {
     filename: "js/[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
+  target: ["web", "es5"],
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
