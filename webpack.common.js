@@ -7,35 +7,35 @@ module.exports = {
     "@babel/polyfill",
     "url-polyfill",
     "whatwg-fetch",
-    path.resolve(__dirname, "src", "index.js")
+    path.resolve(__dirname, "src", "main.js"),
   ],
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: "babel-loader"
+        use: "babel-loader",
       },
       {
         test: /\.(png|jpe?g|gif)$/,
         use: [
           {
             loader: "file-loader",
-            options: { outputPath: "images" }
-          }
-        ]
-      }
-    ]
+            options: { outputPath: "images" },
+          },
+        ],
+      },
+    ],
   },
   output: {
     filename: "js/[contenthash].bundle.js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "Google Books API Demo",
-      template: path.resolve(__dirname, "src", "templates", "index.ejs")
-    })
-  ]
+      template: path.resolve(__dirname, "src", "templates", "index.ejs"),
+    }),
+  ],
 };

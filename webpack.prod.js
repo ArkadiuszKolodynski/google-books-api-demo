@@ -1,6 +1,6 @@
 const common = require("./webpack.common.js");
 const glob = require("glob");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -13,23 +13,23 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
-      }
-    ]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+    ],
   },
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})]
+    minimizer: [new TerserJSPlugin(), new OptimizeCSSAssetsPlugin()],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "styles/styles.css"
+      filename: "styles/styles.css",
     }),
     new PurgecssPlugin({
-      paths: () => glob.sync(path.resolve(__dirname, "src") + "/**/*", { nodir: true })
-    })
-  ]
+      paths: () => glob.sync(path.resolve(__dirname, "src") + "/**/*", { nodir: true }),
+    }),
+  ],
 });

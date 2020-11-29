@@ -1,10 +1,11 @@
-import "../styles/styles.scss";
+import "../styles/main.scss";
 import Book from "./book";
 import Spinner from "./spinner";
 
 class App {
   /**
-   * @param  {int} maxResults
+   *
+   * @param {number} maxResults
    */
   constructor(maxResults) {
     this.baseUrl = new URL("https://www.googleapis.com/books/v1/volumes");
@@ -13,7 +14,10 @@ class App {
     this.spinner = new Spinner();
     this.startIndex = 0;
   }
-
+  /**
+   *
+   * @returns {object}
+   */
   getElements() {
     return {
       searchForm: document.getElementById("searchForm"),
@@ -28,6 +32,10 @@ class App {
     this.elements.content.onscroll = this.onScrollHandler;
   }
 
+  /**
+   *
+   * @param {SubmitEvent} event
+   */
   onSubmitHandler = async event => {
     event.preventDefault();
     const content = this.elements.content;
@@ -41,6 +49,10 @@ class App {
     }
   };
 
+  /**
+   *
+   * @param {ScrollEvent} event
+   */
   onScrollHandler = async _event => {
     const content = this.elements.content;
     if (content.offsetHeight + content.scrollTop + 1 >= content.scrollHeight) {
@@ -71,6 +83,10 @@ class App {
     }
   }
 
+  /**
+   *
+   * @param {any} payload
+   */
   insertBooks(payload) {
     if (payload.totalItems - this.startIndex >= 10) {
       this.elements.content.onscroll = this.onScrollHandler;
@@ -89,8 +105,12 @@ class App {
     }
   }
 
+  /**
+   *
+   * @param {Error} error
+   */
   handleFetchingBooksError(error) {
-    console.log(error);
+    console.error(error);
     this.toogleSpinner();
     this.elements.content.insertAdjacentHTML(
       "beforeend",
@@ -100,6 +120,10 @@ class App {
     );
   }
 
+  /**
+   *
+   * @returns {URLSearchParams}
+   */
   getSearchParams() {
     return new URLSearchParams({
       q: `intitle:${this.value}`,
@@ -114,6 +138,7 @@ class App {
     if (content.contains(this.spinner)) {
       content.removeChild(this.spinner);
     } else {
+      console.log(this.spinner);
       content.insertAdjacentElement("beforeend", this.spinner);
     }
   }
