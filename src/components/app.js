@@ -22,7 +22,7 @@ class App {
     return {
       searchForm: document.getElementById("searchForm"),
       searchInput: document.getElementById("searchInput"),
-      content: document.getElementById("content")
+      content: document.getElementById("content"),
     };
   }
 
@@ -36,7 +36,7 @@ class App {
    *
    * @param {SubmitEvent} event
    */
-  onSubmitHandler = async event => {
+  onSubmitHandler = async (event) => {
     event.preventDefault();
     const content = this.elements.content;
     this.value = event.target[0].value;
@@ -53,7 +53,7 @@ class App {
    *
    * @param {ScrollEvent} event
    */
-  onScrollHandler = async _event => {
+  onScrollHandler = async (_event) => {
     const content = this.elements.content;
     if (content.offsetHeight + content.scrollTop + 1 >= content.scrollHeight) {
       content.onscroll = undefined;
@@ -129,7 +129,7 @@ class App {
       q: `intitle:${this.value}`,
       startIndex: this.startIndex,
       maxResults: this.maxResults,
-      projection: "lite"
+      projection: "lite",
     });
   }
 
@@ -138,7 +138,6 @@ class App {
     if (content.contains(this.spinner)) {
       content.removeChild(this.spinner);
     } else {
-      console.log(this.spinner);
       content.insertAdjacentElement("beforeend", this.spinner);
     }
   }
