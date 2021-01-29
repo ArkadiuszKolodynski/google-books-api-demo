@@ -10,8 +10,9 @@ class Book {
    * @returns {HTMLElement}
    */
   constructor(title, src, desc, descMaxLength) {
+    console.log(img);
     this.title = title || "No title";
-    this.src = this.replaceHttpWithHttps(src) || img;
+    this.src = this.replaceHttpWithHttps(src) || img.default;
     this.desc = desc || "This book has no description yet";
     this.descMaxLength = descMaxLength || 15;
 

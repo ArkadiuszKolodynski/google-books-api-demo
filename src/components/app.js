@@ -73,7 +73,7 @@ class App {
         if (payload.totalItems > 0) {
           this.insertBooks(payload);
         } else {
-          content.insertAdjacentText("beforeend", "No items found!");
+          this.elements.content.insertAdjacentText("beforeend", "No items found!");
         }
       } else {
         throw new Error(response.statusText);
